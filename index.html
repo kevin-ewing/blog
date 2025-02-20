@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Index</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 class="blog-title">Blog</h1>
+    <div id="blog-container"></div>
+
+    <script>
+        const directories = [
+            "Eclipse Web",
+            "Sprills",
+        ];
+
+        async function fetchMetadata(dir) {
+            try {
+                const response = await fetch(`./${dir}/metadata.json`);
+                if (!response.ok) throw new Error("Failed to load metadata");
+                return await response.json();
+            } catch (error) {
+                console.error("Error fetching metadata:", error);
+                return null;
+            }
+        }
+
+        async function loadBlogPosts() {
+            const container = document.getElementById("blog-container");
+            for (const dir of directories) {
+                const metadata = await fetchMetadata(dir);
+                if (metadata) {
+                    const postElement = document.createElement("a");
+                    postElement.className = "blog-post";
+                    postElement.href = `./${dir}/`;
+                    postElement.innerHTML = `
+                        <img src="./${dir}/thumbnail.jpg" alt="Thumbnail" class="thumbnail">
+                        <div class="blog-info">
+                            <div class="blog-meta">
+                                <img src="./resources/author.jpg" alt="Author" class="author-image">
+                                <div>
+                                    <p class="author-name">${metadata.author}</p>
+                                    <p class="post-date">${metadata.date} • ${metadata.read_time} minute read</p>
+                                </div>
+                            </div>
+                            <h2>${metadata.title}</h2>
+                            <p class="description">${metadata.description}</p>
+                        </div>
+                    `;
+                    container.appendChild(postElement);
+                }
+            }
+        }
+
+        loadBlogPosts();
+    </script>
+</body>
+</html>

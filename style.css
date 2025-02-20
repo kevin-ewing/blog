@@ -1,0 +1,80 @@
+body {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background-color: white;
+    margin: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blog-title {
+    font-weight: 300;
+    font-size: 24px;
+    margin-bottom: 20px;
+    align-self: flex-start;
+}
+
+#blog-container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.blog-post {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+    padding: 20px;
+    transition: background 0.2s ease-in-out;
+    border-radius: 10px;
+}
+
+.blog-post:hover {
+    background: #f9f9f9;
+}
+
+.thumbnail {
+    width: 360px;
+    height: 360px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.blog-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.blog-meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.author-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.author-name, .post-date {
+    font-size: 14px;
+    font-weight: 300;
+    margin: 0;
+}
+
+h2 {
+    font-weight: 400;
+    margin: 5px 0;
+}
+
+.description {
+    font-size: 16px;
+    font-weight: 300;
+    color: #333;
+    margin-top: 5px;
+}
