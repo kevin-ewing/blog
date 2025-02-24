@@ -7,13 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 class="blog-title">Blog</h1>
+    <h1 class="blog-title">Generative Art Blog</h1>
+    <div class="top-links">
+        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">LinkedIn</a>
+        <a href="mailto:kevin.c.ewing@outlook.net">Email</a>
+        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">GitHub</a>
+    </div>
     <div id="blog-container"></div>
 
     <script>
         const directories = [
-            "Eclipse Web",
+            "Bedoop",
             "Sprills",
+            "Eclipse Web",
         ];
 
         async function fetchMetadata(dir) {
@@ -55,6 +61,10 @@
         }
 
         loadBlogPosts();
+    </script>
+    <div class="footer">&copy; Kevin Ewing <span id="year"></span></div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

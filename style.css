@@ -78,3 +78,38 @@ h2 {
     color: #333;
     margin-top: 5px;
 }
+
+.markdown-body {
+    color: #333;
+    max-width: 600px;
+}
+
+.markdown-body h1 {
+    color: black;
+}
+
+.markdown-body img{
+    width: 600px;
+}
+
+.top-links {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.top-links a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+.top-links a:hover {
+    color: #333;
+}
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 14px;
+    color: #666;
+}

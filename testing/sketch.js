@@ -1,55 +1,68 @@
-const NOISE_SCALE = 0.01;
-const NUMBER_LINES = 500000;
-const BOARDER = 40;
-let offsetX, offsetY, offsetZ, offsetColor;
-let paletteColors = [];
-
-function preload() {
-  // Replace these with actual palette file paths in the 'palette' subdirectory
-  let palettes = [
-    "palette/pal1.hex",
-    "palette/pal2.hex",
-    "palette/pal3.hex",
-    "palette/pal4.hex",
-    "palette/pal5.hex",
-    "palette/pal6.hex",
-];
-  paletteColors = loadStrings(random(palettes));
-}
+let ballSize = 20; // Diameter of each ball
+let gap = 2; // Gap between balls
+let border = 100; // Border size
+let cols, rows, offsetX, offsetY;
+let balls = [];
+let noiseScale = 0.005; // Controls the granularity of noise
+let noiseDisplacement = 100
+let noiseSpeed = 0.0025; // Controls the animation speed
+let timeOffset = 0; // Changes over time for continuous motion
 
 function setup() {
   createCanvas(windowHeight, windowHeight);
-  background(0);
-  noFill();
-  strokeWeight(0.025);
-  noLoop();
-
-  offsetX = random(10000);
-  offsetY = random(10000);
-  offsetZ = random(10000);
-  offsetColor = random(10000);
+  calculateGrid();
+  generateBalls();
 }
 
 function draw() {
   background(0);
-  for (let i = 0; i < NUMBER_LINES; i++) {
-    let x = random(BOARDER, width - BOARDER);
-    let y = random(BOARDER, height - BOARDER);
+  drawBalls();
+  timeOffset += noiseSpeed; // Move through the noise field over time
+}
 
-    let len = noise((x + offsetX) * NOISE_SCALE * 0.1, (y + offsetY) * NOISE_SCALE * 0.1) * 60 + 10;
-    let angle = noise((x + offsetZ) * NOISE_SCALE, (y + offsetZ) * NOISE_SCALE) * TWO_PI;
-    let colorIndex = floor(
-      noise((x + offsetColor) * NOISE_SCALE * 0.25, (y + offsetColor) * NOISE_SCALE * 0.25) * paletteColors.length
-    );
-    stroke("#" + paletteColors[colorIndex]);
+function calculateGrid() {
+  let totalSize = ballSize + gap;
+  let availableWidth = width - 2 * border;
+  let availableHeight = height - 2 * border;
 
-    let x2 = x + cos(angle) * len;
-    let y2 = y + sin(angle) * len;
-    line(x, y, x2, y2);
+  cols = floor(availableWidth / totalSize);
+  rows = floor(availableHeight / totalSize);
+
+  let usedWidth = cols * totalSize;
+  let usedHeight = rows * totalSize;
+
+  offsetX = (width - usedWidth) / 2;
+  offsetY = (height - usedHeight) / 2;
+}
+
+function generateBalls() {
+  balls = [];
+  let totalSize = ballSize + gap;
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      let x = offsetX + i * totalSize + ballSize / 2;
+      let y = offsetY + j * totalSize + ballSize / 2;
+      balls.push(createVector(x, y));
+    }
+  }
+}
+
+function drawBalls() {
+  fill(255,255,255,255);
+  noStroke();
+  for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i];
+    let noiseX = noise(ball.x * noiseScale, ball.y * noiseScale, timeOffset);
+    let noiseY = noise(ball.y * noiseScale, ball.x * noiseScale, timeOffset);
+    let displacementX = map(noiseX, 0, 1, -noiseDisplacement, noiseDisplacement);
+    let displacementY = map(noiseY, 0, 1, -noiseDisplacement, noiseDisplacement);
+    
+    ellipse(ball.x + displacementX, ball.y + displacementY, ballSize);
   }
 }
 
 function windowResized() {
   resizeCanvas(windowHeight, windowHeight);
-  redraw();
+  calculateGrid();
+  generateBalls();
 }

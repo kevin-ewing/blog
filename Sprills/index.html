@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.0/marked.min.js"></script>
     <link rel="stylesheet" href="../style.css">
     <style>
-         .back-button {
+        .back-button {
             position: absolute;
             top: 20px;
             left: 20px;
@@ -25,8 +25,12 @@
 </head>
 <body>
     <a href="/" class="back-button">&larr; Back</a>
+    <div class="top-links">
+        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">LinkedIn</a>
+        <a href="mailto:kevin.c.ewing@outlook.net">Email</a>
+        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">GitHub</a>
+    </div>
     <article id="content" class="markdown-body">Loading...</article>
-
     <script>
         // Fetch the markdown file and render it as HTML
         fetch('post.md')
@@ -38,6 +42,10 @@
                 document.getElementById('content').innerHTML = "<p>Error loading the markdown file.</p>";
                 console.error("Error fetching markdown:", error);
             });
+    </script>
+    <div class="footer">&copy; Kevin Ewing <span id="year"></span></div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

@@ -3,5 +3,5 @@
     "author": "Kevin Ewing",
     "date": "February 20, 2025",
     "read_time": 5,
-    "description": "This is a short summary of the blog post, giving readers a quick insight into the content before they click to read more."
+    "description": "Messing around with curves in p5.js and seeing where it takes me. Randomness, gaussian distributions, color palette generation -- it's got it all."
 }
