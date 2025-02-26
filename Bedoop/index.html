@@ -22,9 +22,22 @@
             background: #f9f9f9;
         }
     </style>
+    <link rel="icon" type="image/png" href="/resources/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/resources/favicon.svg" />
+    <link rel="shortcut icon" href="/resources/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/resources/apple-touch-icon.png" />
+    <link rel="manifest" href="/resources/site.webmanifest" />
 </head>
 <body>
-    <a href="/" class="back-button">&larr; Back</a>
+    <a href="#" class="back-button" onclick="goToParentDir(); return false;">&larr; Back</a>
+    <script>
+    function goToParentDir() {
+        let path = window.location.pathname;
+        let parentPath = path.endsWith('/') ? path.slice(0, -1) : path;
+        parentPath = parentPath.substring(0, parentPath.lastIndexOf('/')) || '/';
+        window.location.href = parentPath;
+    }
+    </script>
     <div class="top-links">
         <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">LinkedIn</a>
         <a href="mailto:kevin.c.ewing@outlook.net">Email</a>
