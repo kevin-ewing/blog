@@ -5,23 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Index</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="/resources/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/resources/favicon.svg" />
-    <link rel="shortcut icon" href="/resources/favicon.ico" />
+    <link rel="icon" type="image/png" href="./resources/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./resources/favicon.svg" />
+    <link rel="shortcut icon" href="./resources/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/resources/apple-touch-icon.png" />
     <link rel="manifest" href="/resources/site.webmanifest" />
 </head>
 <body>
-    <h1 class="blog-title">
-        <img src="./resources/favicon-96x96.png" alt="Blog Logo" style="vertical-align: middle; user-select: none; pointer-events: none;">
-        Generative Art Blog
-    </h1>
-        <div class="top-links">
-        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">LinkedIn</a>
-        <a href="mailto:kevin.c.ewing@outlook.net">Email</a>
-        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">GitHub</a>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p class="loading-text">Generative Art Blog</p>
     </div>
-    <div id="blog-container"></div>
+
+    <div id="content" style="display: none;">
+        <h1 class="blog-title">
+            <img src="./resources/favicon.png" alt="Blog Logo" style="vertical-align: middle; user-select: none; pointer-events: none; height:80px; width:auto;">
+            Generative Art Blog
+        </h1>
+        <div class="top-links">
+            <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">LinkedIn</a>
+            <a href="mailto:kevin.c.ewing@outlook.net">Email</a>
+            <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">GitHub</a>
+        </div>
+        <div id="blog-container"></div>
+
+        <div class="footer">&copy; Kevin Ewing <span id="year"></span></div>
+    </div>
 
     <script>
         const directories = [
@@ -42,6 +51,8 @@
 
         async function loadBlogPosts() {
             const container = document.getElementById("blog-container");
+            const imagePromises = [];
+
             for (const dir of directories) {
                 const metadata = await fetchMetadata(dir);
                 if (metadata) {
@@ -62,15 +73,32 @@
                             <p class="description">${metadata.description}</p>
                         </div>
                     `;
+
+                    // Track when images are fully loaded
+                    const thumbnail = postElement.querySelector(".thumbnail");
+                    const authorImage = postElement.querySelector(".author-image");
+                    imagePromises.push(
+                        new Promise((resolve) => {
+                            thumbnail.onload = authorImage.onload = resolve;
+                        })
+                    );
+
                     container.appendChild(postElement);
                 }
             }
+
+            // Wait for all images to load
+            await Promise.all(imagePromises);
+
+            // Hide loader and show content
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("content").style.display = "block";
         }
 
+        // Run the function
         loadBlogPosts();
-    </script>
-    <div class="footer">&copy; Kevin Ewing <span id="year"></span></div>
-    <script>
+
+        // Update the footer year dynamically
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
