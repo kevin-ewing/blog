@@ -1,3 +1,40 @@
+# Coffee
+
+Hello, I am drinking coffee and trying to come up with inspiration. I enjoy drining black coffee, especially when iced, and so it strangely got me thinking about creating a project in black and white.
+
+I am also feeling lazy (I have not consumed much of the coffee yet), so will be posting intermitant images of the work and not commenting on what I am doing. I hope I rememeber to do it in invrements small enough to make the work and my creative process paletable.
+
+Crap and just like that I have made a lot of progress before updating you at all. Well here is what I've got now.
+
+![image](./resources/o1.jpg)
+
+![image](./resources/o2.jpg)
+
+![image](./resources/o3.jpg)
+
+![image](./resources/o4.jpg)
+
+![image](./resources/o5.jpg)
+
+![image](./resources/o6.jpg)
+
+![image](./resources/o7.jpg)
+
+![image](./resources/o8.jpg)
+
+## Final Images
+
+![image](./resources/f1.jpg)
+
+![image](./resources/f2.jpg)
+
+![image](./resources/f3.jpg)
+
+![image](./resources/f4.jpg)
+
+## Source Code
+
+```js
 const NOISE_DIFF = 20;
 
 let n_lines = 350;
@@ -108,3 +145,4 @@ function draw() {
     }
   }
 }
+```

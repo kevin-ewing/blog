@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bedoop</title>
+    <title>Coffee</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.0/marked.min.js"></script>
     <link rel="stylesheet" href="../style.css">
     <style>
@@ -33,8 +33,8 @@
     <script>
     function goToParentDir() {
         let path = window.location.pathname;
-        let parentPath = path.endsWith('/') ? path.slice(0, -1) : path;
-        parentPath = parentPath.substring(0, parentPath.lastIndexOf('/')) || '/';
+        let parentPath = path.endsWith("/") ? path.slice(0, -1) : path;
+        parentPath = parentPath.substring(0, parentPath.lastIndexOf("/")) || "/";
         window.location.href = parentPath;
     }
     </script>
@@ -45,20 +45,19 @@
     </div>
     <article id="content" class="markdown-body">Loading...</article>
     <script>
-        // Fetch the markdown file and render it as HTML
-        fetch('post.md')
+        fetch("post.md")
             .then(response => response.text())
             .then(text => {
-                document.getElementById('content').innerHTML = marked.parse(text);
+                document.getElementById("content").innerHTML = marked.parse(text);
             })
             .catch(error => {
-                document.getElementById('content').innerHTML = "<p>Error loading the markdown file.</p>";
+                document.getElementById("content").innerHTML = "<p>Error loading the markdown file.</p>";
                 console.error("Error fetching markdown:", error);
             });
     </script>
     <div class="footer">&copy; Kevin Ewing <span id="year"></span></div>
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+        document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
