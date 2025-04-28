@@ -1,0 +1,14 @@
+#!/bin/bash
+
+dir="$1"
+
+if [[ -z "$dir" ]]; then
+  echo "Usage: $0 <directory>"
+  exit 1
+fi
+
+for img in "$dir"/*.png; do
+  [ -e "$img" ] || continue
+  jpeg="${img%.png}.jpg"
+  convert "$img" -quality 85 "$jpeg"
+done

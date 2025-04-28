@@ -1,9 +1,51 @@
+# New York at Night
+
+I just got back from visiting New York. It is only logical then that I create a generative art procedurally created city skyline of NY.
+
+## Adapting the existing
+
+A while back I had created this distant city artwork. Designed to look like an out of focus town at sunset. I will be adapting this project for the New York at Night skyline.
+
+![image](./resources/o1.jpg)
+
+First let me add some noise and change the background gradient to something resembling night time a little more.
+
+![image](./resources/o2.jpg)
+
+Now, after looking at reference images for a while, it seems most skyline images include the water in the foreground. I will include a reverse gradient below to suggest the same thing.
+
+![image](./resources/o3.jpg)
+
+Now let me add a bunch of randomly generating rectangular "buildings" each building is a structure stored in an array of all buildings. After they are drawn I will go over them again and dd lights to them as well.
+
+![image](./resources/o4.jpg)
+
+Whoops, now I would say that both the buildings are a little too regular as ell as the lights too populated. I will decrease the amount of lights.
+
+![image](./resources/o5.jpg)
+
+The number of lights is better now, certainly. However, I do not like how regular and colored the lights are. I am going to decrease the saturation of the building lights as well as make the opacity random. In other words adding variability to the brightness of the lights.
+
+![image](./resources/o6.jpg)
+
+Oh, that is much better. It is starting to actually look like the City. Let me change the gradient slightly and create some final images.
+
+## Final Images
+
+![image](./resources/f1.jpg)
+
+![image](./resources/f2.jpg)
+
+![image](./resources/f3.jpg)
+
+## Source Code
+
+```js
 const NOISE_DF = 10
 const WATER_LINE = 50
 const BUILDING_NUMBER = 200
 const LIGHT_FACTOR = 0.9
 
-// Light numbers
 const LIGHT_ON_CHANCE = 0.35
 const EXTRA_BUILDING_LIGHTS = 100
 const RANDOM_LIGHTS = 50
@@ -151,13 +193,12 @@ function draw() {
         }
     }
 
-    // Extra vibrant lights favoring very top
     noStroke()
     for (let i = 0; i < EXTRA_BUILDING_LIGHTS; i++) {
-        let b = buildingData[int(pow(random(1), 2) * buildingData.length)] // bias toward tallest
+        let b = buildingData[int(pow(random(1), 2) * buildingData.length)]
         let lightX = b.x + random(0, b.w)
 
-        let relativeTopBias = constrain(abs(randomGaussian(0, 0.5)), 0, 0.5) // centered at top
+        let relativeTopBias = constrain(abs(randomGaussian(0, 0.5)), 0, 0.5)
         let lightY = height - WATER_LINE - b.h + b.h * relativeTopBias
 
         let col = circleColors[int(random(circleColors.length))]
@@ -191,3 +232,5 @@ function addNoise() {
     }
     updatePixels()
 }
+
+```
