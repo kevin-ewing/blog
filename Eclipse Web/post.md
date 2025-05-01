@@ -4,11 +4,11 @@ Hello, World!
 
 This is my first blog post here on this little blog site I've set up -- I am still ironing out the kinks, so I hope you are able to see this.
 
-I am Kevin Ewing, a software engineer and hobby generative artist. I love being able to explore my personal creativity through code. This is why, ever since my university class on generative art, I have used `p5.js`.
+I am Kevin Ewing, a software engineer and hobby generative artist. I love being able to explore my personal creativity through code. This is why, ever since my university class on generative art, I have used p5.js.
 
 ## Starting with a circle
 
-I have not played around too much with curves in `p5.js`, so I want to create a project centered around them. To start, I am not thinking much about the composition, as I usually find it along the way. I am just going to try to get some curves down on the page. I already know that I want to have many curves scattered, but I don’t want them randomly. I want them all coming off of a central circle of the canvas and connecting to another spot on the circle.
+I have not played around too much with curves in p5.js, so I want to create a project centered around them. To start, I am not thinking much about the composition, as I usually find it along the way. I am just going to try to get some curves down on the page. I already know that I want to have many curves scattered, but I don’t want them randomly. I want them all coming off of a central circle of the canvas and connecting to another spot on the circle.
 
 ![image](./resources/i1.jpg)
 
@@ -18,7 +18,7 @@ Awesome, that is at least proof that the lines are connecting between two points
 
 ## I want curves
 
-Oh, that is much better. Lines are interesting, but I have been thinking a lot about curves. Let’s turn those lines into a bunch of randomized Bézier curves. To do that in `p5.js`, we need to add a control point between the start and end points. Let’s select another random point—this time, Gaussianly distributed around the center of the canvas. This means it will most often pick control points in the middle of the circle. The further away from the circle, the rarer the control point. Let’s see what we get.
+Oh, that is much better. Lines are interesting, but I have been thinking a lot about curves. Let’s turn those lines into a bunch of randomized Bézier curves. To do that in p5.js, we need to add a control point between the start and end points. Let’s select another random point—this time, Gaussianly distributed around the center of the canvas. This means it will most often pick control points in the middle of the circle. The further away from the circle, the rarer the control point. Let’s see what we get.
 
 ![image](./resources/i3.jpg)
 
