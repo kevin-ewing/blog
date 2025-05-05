@@ -184,3 +184,7 @@ pre, code {
 pre code {
     display: block;
 }
+
+.noscript-links {
+    display: none;
+  }
