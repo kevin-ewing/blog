@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /testing/
+
+Sitemap: https://blog.kevin-ewing.com/sitemap.xml

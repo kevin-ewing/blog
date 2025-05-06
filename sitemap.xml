@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://blog.kevin-ewing.com/Cube/</loc>
+    <lastmod>2025-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.kevin-ewing.com/New%20York%20at%20Night/</loc>
+    <lastmod>2025-05-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.kevin-ewing.com/Coffee/</loc>
+    <lastmod>2025-05-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.kevin-ewing.com/Sprills/</loc>
+    <lastmod>2025-05-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.kevin-ewing.com/Eclipse%20Web/</loc>
+    <lastmod>2025-05-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
