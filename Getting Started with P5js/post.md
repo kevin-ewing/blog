@@ -33,10 +33,10 @@ Create a new folder, call it p5‑sandbox or whatever feels nice. Inside, add tw
 #### script.js
 
 ```{js}
-function setup() {               // called once at start
-  createCanvas(800, 600);        // 800 × 600 canvas
-  background(0);                 // black bg
-  noStroke();                    // no stroke around shapes
+function setup() {         // called once at start
+  createCanvas(800, 600);  // 800 × 600 canvas
+  background(0);           // black bg
+  noStroke();              // no stroke around shapes
 }
 
 function draw() {          // called every frame
@@ -221,7 +221,7 @@ function setup() {
   createCanvas(800, 600);
   background(0);
   noStroke();
-  blendMode(ADD);             // set colour‑mixing style
+  blendMode(ADD);             // set color‑mixing style
 }
 
 function draw() {
@@ -254,13 +254,13 @@ Refresh and repeat. Each tweak is one variable away -- exactly the low‑frictio
 ## Now Just Explore
 This is where the “tutorial” part officially ends --everything below the fold is pure play. From here it’s almost criminally easy to riff on what we’ve built:
 
-- Swap out full‑spectrum RGB for a curated palette so the colours harmonise instead of shouting.
+- Swap out full‑spectrum RGB for a curated palette, so the colors harmonize instead of shouting.
 
 - Let Perlin noise nudge the center point a few pixels each dot, giving the whole swarm a gentle drift.
 
 - Vary dot size, alpha, even blend mode inside the loop for happy accidents on every frame.
 
-I went down that rabbit hole myself, tinkered with a five‑colour palette, layered in noise, and ended up with something that I fidn compositionally interesting. Below is the final sketch I landed on—feel free to copy it and push the chaos further.
+I went down that rabbit hole myself, tinkered with a muli-color palette, layered in noise, and ended up with something that I find compositionally interesting. Below is the final sketch I landed on—feel free to copy it and push the chaos further.
 
 ![image](./resources/f1.jpg)
 ![image](./resources/f2.jpg)

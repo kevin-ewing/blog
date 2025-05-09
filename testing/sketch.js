@@ -1,69 +1,68 @@
-const BLUR_CONST = 20
-const THRESHOLD_CONST = 0.3
+// === tweakables ===
+const CENTER_X   = 400;
+const CENTER_Y   = 300;
+const SPREAD_X   = 300;
+const SPREAD_Y   = 150;
+const DOT_ALPHA  = 100;
+const DOT_COUNT  = 100;
+const NOISE_DIFF = 30;
 
-let bSize = 100
-let scl = 1.4
-
-let shapes = []
-let sprites = {}
+let palette = [];
 
 function setup() {
-  createCanvas(windowHeight, windowHeight)
-  background(0)
-  noStroke()
+  createCanvas(1000, 420);
+  colorMode(HSB, 360, 100, 100, 255);
+  pixelDensity(2);
+  background(0);
+  noStroke();
+  blendMode(ADD);
 
-  makeSprites()
+  const baseHue = random(360);
+  const baseSat = random(60, 100);
+  for (let i = -2; i <= 2; i++) {
+    let h = (baseHue + i * 20 + 360) % 360;
+    let b = random(50, 100);
+    palette.push(color(h, baseSat, b, DOT_ALPHA));
+  }
+  // Complementary
+  palette.push(color((baseHue + 180) % 360, baseSat, random(50, 100), DOT_ALPHA));
+}
 
-  for (let i = 0; i < 20; i++) {
-    const angle  = random(TWO_PI)
-    const radius = random(0, width * 0.4)           // ← wider spread
-    const x      = width / 2 + cos(angle) * radius
-    const y      = height / 2 + sin(angle) * radius
-    const type   = random(['circle', 'rect', 'tri'])
-    shapes.push({ x, y, s: randomGaussian(1, 0.5), type })
+function draw() {
+  noLoop();
+  for (let i = 0; i < DOT_COUNT; i++) {
+    randomCircle();
+  }
+  addNoise();
+}
+
+function randomCircle() {
+    const x = randomGaussian(CENTER_X, SPREAD_X);
+    const y = randomGaussian(CENTER_Y, SPREAD_Y);
+    const size = random(90, 160); // previously fixed at 80
+    fill(random(palette));
+    ellipse(x, y, size, size);
   }
 
-  imageMode(CENTER)
-  drawScene()
-  noLoop()
-}
+function addNoise() {
+  loadPixels();
+  for (let i = 0; i < width*4; i++) {
+    for (let j = 0; j < height*4; j++) {
+      let index = (i + j * width) * 4;
+      let r = pixels[index];
+      let g = pixels[index + 1];
+      let b = pixels[index + 2];
 
-function makeSprites() {
-  sprites.circle = makeSprite(g => {
-    g.ellipse(bSize * 2, bSize * 2, bSize, bSize)
-  })
-  sprites.rect = makeSprite(g => {
-    g.rectMode(CENTER)
-    g.rect(bSize * 2, bSize * 2, bSize, bSize)
-  })
-  sprites.tri = makeSprite(g => {
-    const cx = bSize * 2, cy = bSize * 2, r = bSize / 2
-    g.triangle(cx, cy - r, cx - r, cy + r, cx + r, cy + r)
-  })
-}
+      if (r !== 0 || g !== 0 || b !== 0) {
+        r += random(-NOISE_DIFF, NOISE_DIFF);
+        g += random(-NOISE_DIFF, NOISE_DIFF);
+        b += random(-NOISE_DIFF, NOISE_DIFF);
 
-function makeSprite(drawFn) {
-  const g = createGraphics(bSize * 4, bSize * 4)
-  g.background(0, 0)
-  g.fill(255)
-  g.noStroke()
-  drawFn(g)
-  g.filter(BLUR, BLUR_CONST)
-  return g
-}
-
-function drawScene() {
-  blendMode(BLEND)
-  background(0)
-
-  for (const sh of shapes) {
-    push()
-    translate(sh.x, sh.y)
-    scale(sh.s * scl)
-    image(sprites[sh.type], 0, 0)
-    pop()
+        pixels[index]     = constrain(r, 0, 255);
+        pixels[index + 1] = constrain(g, 0, 255);
+        pixels[index + 2] = constrain(b, 0, 255);
+      }
+    }
   }
-
-  filter(THRESHOLD, THRESHOLD_CONST)
-  blendMode(BLEND)
+  updatePixels();
 }
