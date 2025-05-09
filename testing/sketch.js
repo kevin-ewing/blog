@@ -1,101 +1,69 @@
-let pg
-let palette = []
-const NOISE_DIFF = 80
+const BLUR_CONST = 20
+const THRESHOLD_CONST = 0.3
+
+let bSize = 100
+let scl = 1.4
+
+let shapes = []
+let sprites = {}
 
 function setup() {
-    createCanvas(windowHeight, windowHeight) // 2D main canvas
-    pixelDensity(1)
-    noLoop()
-    noStroke()
+  createCanvas(windowHeight, windowHeight)
+  background(0)
+  noStroke()
 
-    // Create offscreen WEBGL buffer
-    pg = createGraphics(windowHeight, windowHeight, WEBGL)
-    pg.noStroke()
+  makeSprites()
 
-    // Init palette
-    pg.colorMode(HSB, 360, 100, 100)
-    let baseHue = random(0, 360)
-    for (let i = 0; i < 4; i++) {
-        let hue = (baseHue + i * random(10, 60)) % 360
-        palette.push(pg.color(hue, random(60, 100), random(70, 100)))
-    }
-    pg.colorMode(RGB, 255)
+  for (let i = 0; i < 20; i++) {
+    const angle  = random(TWO_PI)
+    const radius = random(0, width * 0.4)           // ← wider spread
+    const x      = width / 2 + cos(angle) * radius
+    const y      = height / 2 + sin(angle) * radius
+    const type   = random(['circle', 'rect', 'tri'])
+    shapes.push({ x, y, s: randomGaussian(1, 0.5), type })
+  }
+
+  imageMode(CENTER)
+  drawScene()
+  noLoop()
 }
 
-
-function draw() {
-    pg.clear()
-    let cubeSize = (3 / 5) * width
-    drawCube(pg, width / 2, height / 2 + (cubeSize * 0.2), cubeSize)
-    drawCube(pg, width / 2, height / 2 - (cubeSize * 0.2), cubeSize)
-
-    image(pg, 0, 0) // draw WEBGL canvas to 2D main canvas
-
-    addNoise()
+function makeSprites() {
+  sprites.circle = makeSprite(g => {
+    g.ellipse(bSize * 2, bSize * 2, bSize, bSize)
+  })
+  sprites.rect = makeSprite(g => {
+    g.rectMode(CENTER)
+    g.rect(bSize * 2, bSize * 2, bSize, bSize)
+  })
+  sprites.tri = makeSprite(g => {
+    const cx = bSize * 2, cy = bSize * 2, r = bSize / 2
+    g.triangle(cx, cy - r, cx - r, cy + r, cx + r, cy + r)
+  })
 }
 
-function drawCube(g, cx, cy, size) {
-    let yScale = 0.3
-    let half = size / 2
-    let yOffset = half * yScale
-
-    let top = [
-        [cx, cy - yOffset * 2],
-        [cx + half, cy - yOffset],
-        [cx, cy],
-        [cx - half, cy - yOffset],
-    ]
-    let left = [
-        [cx - half, cy - yOffset],
-        [cx, cy],
-        [cx, cy + yOffset * 2],
-        [cx - half, cy + yOffset],
-    ]
-    let right = [
-        [cx, cy],
-        [cx + half, cy - yOffset],
-        [cx + half, cy + yOffset],
-        [cx, cy + yOffset * 2],
-    ]
-
-    drawGradientFace(g, top)
-    drawGradientFace(g, left)
-    drawGradientFace(g, right)
+function makeSprite(drawFn) {
+  const g = createGraphics(bSize * 4, bSize * 4)
+  g.background(0, 0)
+  g.fill(255)
+  g.noStroke()
+  drawFn(g)
+  g.filter(BLUR, BLUR_CONST)
+  return g
 }
 
-function drawGradientFace(g, points) {
-    g.beginShape()
-    for (let pt of points) {
-        let c1 = random(palette)
-        let c2 = random(palette)
-        let amt = random()
-        let c = g.lerpColor(c1, c2, amt)
-        g.fill(c)
-        g.vertex(pt[0] - width / 2, pt[1] - height / 2)
-    }
-    g.endShape(CLOSE)
-}
+function drawScene() {
+  blendMode(BLEND)
+  background(0)
 
+  for (const sh of shapes) {
+    push()
+    translate(sh.x, sh.y)
+    scale(sh.s * scl)
+    image(sprites[sh.type], 0, 0)
+    pop()
+  }
 
-function addNoise() {
-    loadPixels()
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < height; j++) {
-            let index = (i + j * width) * 4
-            let r = pixels[index]
-            let g = pixels[index + 1]
-            let b = pixels[index + 2]
-
-            if (r !== 0 || g !== 0 || b !== 0) {
-                r += random(-NOISE_DIFF, NOISE_DIFF)
-                g += random(-NOISE_DIFF, NOISE_DIFF)
-                b += random(-NOISE_DIFF, NOISE_DIFF)
-
-                pixels[index] = constrain(r, 0, 255)
-                pixels[index + 1] = constrain(g, 0, 255)
-                pixels[index + 2] = constrain(b, 0, 255)
-            }
-        }
-    }
-    updatePixels()
+  filter(THRESHOLD, THRESHOLD_CONST)
+  blendMode(BLEND)
 }

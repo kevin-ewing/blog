@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FRTZ31H3JH"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-FRTZ31H3JH");</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eclipse Web - Kevin Ewing | Generative Art Blog</title>
+    <title>Getting Started with P5js - Kevin Ewing | Generative Art Blog</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.0/marked.min.js"></script>
     <link rel="stylesheet" href="../style.css">
     <style>
@@ -27,20 +28,19 @@
     <link rel="shortcut icon" href="../favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png" />
     <link rel="manifest" href="../favicon/site.webmanifest" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FRTZ31H3JH"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", G-FRTZ31H3JH);</script>
 </head>
 <body>
     <a href="#" class="back-button" onclick="goToParentDir(); return false;">&larr; Back</a>
     <script>
     function goToParentDir() {
         let path = window.location.pathname;
-        let parentPath = path.endsWith('/') ? path.slice(0, -1) : path;
-        parentPath = parentPath.substring(0, parentPath.lastIndexOf('/')) || '/';
+        let parentPath = path.endsWith("/") ? path.slice(0, -1) : path;
+        parentPath = parentPath.substring(0, parentPath.lastIndexOf("/")) || "/";
         window.location.href = parentPath;
     }
     </script>
     <div class="top-links">
-        <a href="https://kevin-ewing.com">Resume Site</a>
+        <a href="https://kevin-ewing.com" target="_blank">Resume Site</a>
         <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">LinkedIn</a>
         <a href="https://www.instagram.com/kevin_ewing_art/" target="_blank">Instagram</a>
         <a href="mailto:kevin.c.ewing@outlook.net">Email</a>
@@ -48,20 +48,19 @@
     </div>
     <article id="content" class="markdown-body">Loading...</article>
     <script>
-        // Fetch the markdown file and render it as HTML
-        fetch('post.md')
+        fetch("post.md")
             .then(response => response.text())
             .then(text => {
-                document.getElementById('content').innerHTML = marked.parse(text);
+                document.getElementById("content").innerHTML = marked.parse(text);
             })
             .catch(error => {
-                document.getElementById('content').innerHTML = "<p>Error loading the markdown file.</p>";
+                document.getElementById("content").innerHTML = "<p>Error loading the markdown file.</p>";
                 console.error("Error fetching markdown:", error);
             });
     </script>
     <div class="footer">&copy; Kevin Ewing <span id="year"></span></div>
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+        document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

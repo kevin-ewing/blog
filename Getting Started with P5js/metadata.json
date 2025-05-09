@@ -1,0 +1,7 @@
+{
+    "title": "Getting Started with P5js",
+    "author": "Kevin Ewing",
+    "date": "May 09, 2025",
+    "read_time": 13,
+    "description": "A gentle introduction to generative art with p5.js. We'll walk through setting up a basic HTML file, adding a p5.js script, and creating your first randomized sketch using the canvas. No prior experience needed -- just curiosity and a browser."
+}
