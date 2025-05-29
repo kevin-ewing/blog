@@ -1,3 +1,27 @@
+# Topology
+
+![image](./resources/o1.jpg)
+![image](./resources/o2.jpg)
+![image](./resources/o3.jpg)
+![image](./resources/o4.jpg)
+![image](./resources/o5.jpg)
+![image](./resources/o6.jpg)
+![image](./resources/o7.jpg)
+![image](./resources/o8.jpg)
+![image](./resources/o9.jpg)
+![image](./resources/o10.jpg)
+![image](./resources/o11.jpg)
+
+## Final Images
+
+![image](./resources/f1.jpg)
+![image](./resources/f2.jpg)
+![image](./resources/f3.jpg)
+![image](./resources/f4.jpg)
+
+## Source Code
+
+```js
 let cols = 70
 let rows = 70
 let cubeSize = 40
@@ -131,3 +155,4 @@ function drawDiagonalTexture(spacing = 2, alpha = 40, angleDeg = 30) {
 
     pop()
 }
+```

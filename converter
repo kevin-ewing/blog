@@ -10,5 +10,5 @@ fi
 for img in "$dir"/*.png; do
   [ -e "$img" ] || continue
   jpeg="${img%.png}.jpg"
-  convert "$img" -quality 85 "$jpeg"
+  magick "$img" -quality 85 "$jpeg"
 done
