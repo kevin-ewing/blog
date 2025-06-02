@@ -1,15 +1,69 @@
 # Topology
 
+### Step&nbsp;1 – Establishing the Base Mesh
+
+A uniform field of extruded cubes is rendered to validate the orthographic camera setup, overall scale, and lighting.  
+
 ![image](./resources/o1.jpg)
+
+### Step&nbsp;2 – Introducing Low‑Frequency Noise
+
+A coarse Perlin‑noise displacement is applied to the cube heights, creating gentle undulations across the surface.  
+
 ![image](./resources/o2.jpg)
+
+### Step&nbsp;3 – Increasing Noise Complexity
+
+The noise frequency is raised, yielding a denser, more intricate topography while retaining the original color scheme. Cubes are no longer cubes but are square prisms.
+
 ![image](./resources/o3.jpg)
+
+### Step&nbsp;4 – Height‑Map Verification in Grayscale
+
+Color is temporarily removed so that the height distribution can be inspected without chromatic distraction. Looks like something I did while adding the wireframe made the negative displacement stop working.
+
 ![image](./resources/o4.jpg)
+
+### Step&nbsp;5 – Re‑applying the Dynamic Hue Palette
+
+Hue shifts tied to elevation are reinstated, confirming that color correctly tracks terrain relief with wireframe enabled.
+
 ![image](./resources/o5.jpg)
+
+### Step&nbsp;6 – Dialing in cube and wireframe sizes
+
+The title is pretty self explanatory, I just dialed in the cube size, displacement and wireframe line weight.
+
 ![image](./resources/o6.jpg)
+
+### Step&nbsp;7 – Warm‑Spectrum Exploration
+
+The palette is constrained to warm, orange tones to test mood variations and legibility at lower saturation.  
+
 ![image](./resources/o7.jpg)
+
+### Step&nbsp;8 – Cool‑Spectrum Exploration
+
+A complementary study restricts hues to blues, evaluating depth perception and atmosphere.  
+
 ![image](./resources/o8.jpg)
+
+### Step&nbsp;9 – Selective Terrain Tinting
+
+Localized hue modulation blends random colors with split complementary hue shifts to give a better sense of face normals. More or less, it makes the cubes seem more 3Ds
+
 ![image](./resources/o9.jpg)
+
+### Step&nbsp;10 – High‑Key Color Pass
+
+Dialiing in hue and saturation offsets from random color generated.
+
 ![image](./resources/o10.jpg)
+
+### Step&nbsp;11 – Multi‑Hue Harmonisation
+
+The final iterative pass balances multiple complementary hues, locking in the full color range.  
+
 ![image](./resources/o11.jpg)
 
 ## Final Images
@@ -21,7 +75,7 @@
 
 ## Source Code
 
-```js
+```{js}
 let cols = 70
 let rows = 70
 let cubeSize = 40
