@@ -1,133 +1,87 @@
-let cols = 70
-let rows = 70
-let cubeSize = 40
-let gap = 5
-let noiseScale = 0.15
-let noiseSpeed = 0.002
-let heightFactor = 200
-let baseHue
 let pg
+let cols, rows
+let spacing = 40
+let noiseScale = 0.05
+let abOffset = 6 // offset magnitude
+let opacity = 256 // tint opacity
+let abAngle // random aberration vector
+let maxDist // max distance to canvas centre
 
 function setup() {
     createCanvas(windowHeight, windowHeight)
-    pg = createGraphics(windowHeight, windowHeight, WEBGL)
-    pg.angleMode(DEGREES)
-    pg.colorMode(HSB, 360, 100, 100, 255)
-    baseHue = random(360)
-    noStroke()
+
+    pg = createGraphics(windowHeight, windowHeight)
+    pg.clear()
+    pg.noFill()
+    pg.strokeWeight(2)
+    pg.stroke(255)
+
+    cols = int(width / spacing)
+    rows = int(height / spacing)
+
+    abAngle = random(TWO_PI) // random offset direction
+    maxDist = dist(0, 0, width / 2, height / 2) // for centre weighting
+
+    drawCurvyLines(pg)
     noLoop()
 }
 
 function draw() {
-    // Draw to offscreen buffer
-    pg.push()
-    pg.clear()
-    pg.ortho(-width / 2, width / 2, -height / 2, height / 2, -1000, 10000)
-    const camDist = (cols + rows) * (cubeSize + gap) * 0.3
-    pg.camera(camDist, -camDist, camDist, 0, 0, 0, 0, 1, 0)
+    background(255)
+    blendMode(MULTIPLY)
 
-    pg.translate(
-        (-(cols - 1) * (cubeSize + gap)) / 2,
-        0,
-        (-(rows - 1) * (cubeSize + gap)) / 2
-    )
+    const dx = cos(abAngle) * abOffset
+    const dy = sin(abAngle) * abOffset
 
-    for (let z = 0; z < rows; z++) {
-        for (let x = 0; x < cols; x++) {
-            const yOff = map(
-                noise(x * noiseScale, z * noiseScale, frameCount * noiseSpeed),
-                0,
-                1,
-                -heightFactor,
-                heightFactor
-            )
-            const h = cubeSize * 10
+    tint(0, 255, 255, opacity) // cyan
+    image(pg, -2 * dx, -2 * dy)
 
-            pg.push()
-            pg.translate(x * (cubeSize + gap), yOff, z * (cubeSize + gap))
-            drawColoredBox(pg, 0, 0, 0, cubeSize, h, cubeSize, yOff)
+    tint(0, 0, 255, opacity) // blue
+    image(pg, -dx, -dy)
 
-            pg.stroke(0)
-            pg.strokeWeight(3)
-            pg.noFill()
-            pg.box(cubeSize + 0.5, cubeSize * 10 + 0.5, cubeSize + 0.5)
-            pg.pop()
-        }
-    }
-    pg.pop()
+    tint(255, 0, 0, opacity) // red
+    image(pg, dx, dy)
 
-    // Render to main canvas
+    tint(255, 255, 0, opacity) // yellow
+    image(pg, 2 * dx, 2 * dy)
+
+    blendMode(BLEND)
+
+    tint(0) // crisp black top-layer
     image(pg, 0, 0)
+    tint(255) // reset
+}
 
-    // Apply base hue tint noise
-    loadPixels()
-    for (let i = 0; i < pixels.length; i += 4) {
-        let r = pixels[i]
-        let g = pixels[i + 1]
-        let b = pixels[i + 2]
+function drawCurvyLines(g) {
+    for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+            let baseX =
+                i * spacing + spacing / 2 + random(-spacing / 10, spacing / 10)
+            let baseY =
+                j * spacing + spacing / 2 + random(-spacing / 10, spacing / 10)
 
-        if (r !== 0 || g !== 0 || b !== 0) {
-            let blendAmt = random(0.05, 0.4)
-            let tintColor = color(baseHue, 100, 100)
-            let tr = red(tintColor)
-            let tg = green(tintColor)
-            let tb = blue(tintColor)
+            const segments = 16
 
-            pixels[i] = lerp(r, tr, blendAmt)
-            pixels[i + 1] = lerp(g, tg, blendAmt)
-            pixels[i + 2] = lerp(b, tb, blendAmt)
+            // distance weighting toward canvas centre
+            const d = dist(baseX, baseY, width / 2, height / 2)
+            const cFactor = 1 - d / maxDist // 0 (edge) → 1 (centre)
+
+            // longer, wilder lines near centre
+            let lengthNoise = noise(i * noiseScale, j * noiseScale + 400)
+            let lineLength = map(lengthNoise, 0, 1, 60, 140) * (1 + cFactor * 2)
+
+            g.beginShape()
+            for (let k = -1; k <= segments + 1; k++) {
+                const t = k / segments
+                const n = noise((i + t) * noiseScale, (j + t) * noiseScale)
+
+                const angleAmp = 1 + cFactor // more curvature near centre
+                const angle = map(n, 0, 1, -PI, PI) * angleAmp
+                const r = t * lineLength
+
+                g.curveVertex(baseX + cos(angle) * r, baseY + sin(angle) * r)
+            }
+            g.endShape()
         }
     }
-    updatePixels()
-
-    // texture effect
-    drawDiagonalTexture()
-}
-
-function drawColoredBox(g, x, y, z, w, h, d, heightOffset) {
-    const hw = w / 2
-    const hh = h / 2
-    const hd = d / 2
-    const saturation = map(heightOffset, -heightFactor, heightFactor, 60, 0)
-
-    g.beginShape(g.QUADS)
-
-    // Front face
-    g.fill((baseHue - 120 + 360) % 360, saturation * 0.6, 80)
-    g.vertex(-hw, -hh, hd)
-    g.vertex(hw, -hh, hd)
-    g.vertex(hw, hh, hd)
-    g.vertex(-hw, hh, hd)
-
-    // Right face
-    g.fill((baseHue + 120) % 360, saturation * 0.6, 70)
-    g.vertex(hw, -hh, hd)
-    g.vertex(hw, -hh, -hd)
-    g.vertex(hw, hh, -hd)
-    g.vertex(hw, hh, hd)
-
-    // Top face
-    g.fill(baseHue, saturation, 100)
-    g.vertex(-hw, -hh, -hd)
-    g.vertex(hw, -hh, -hd)
-    g.vertex(hw, -hh, hd)
-    g.vertex(-hw, -hh, hd)
-
-    g.endShape()
-}
-
-function drawDiagonalTexture(spacing = 2, alpha = 40, angleDeg = 30) {
-    push()
-    translate(width / 2, height / 2)
-    rotate(radians(angleDeg))
-    stroke(0, 0, 100, alpha)
-    strokeWeight(1)
-
-    const len = sqrt(sq(width) + sq(height)) * 2
-
-    for (let i = -len; i < len; i += spacing) {
-        line(i, -len, i, len)
-    }
-
-    pop()
 }
