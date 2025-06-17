@@ -1,4 +1,9 @@
 const EYE_MOMENTUM = 0.2 // how fast the pupil follows the target
+const EYE_COLORS = [
+    "#29363f", "#32608e", "#517590", "#6190b8", "#6aa4bb", "#576b94", "#6994a6", "#769aac", "#a0c5d2", "#c3eaf2",
+    "#3a3e33", "#495032", "#656c50", "#7a7a53", "#a8b38b", "#506150", "#687752", "#778267", "#b3cab4", "#9da890",
+    "#5b431e", "#7a4f14", "#845e39", "#754024", "#8b5322", "#ab6e41", "#5f403a", "#5a352d", "#503018", "#3f261a"
+];
 
 let pX, pY // pupil position (with momentum)
 let blinkProg = 0 // 0 = no blink, 0‒1 = blink cycle
@@ -21,7 +26,7 @@ function setup() {
     pX = width / 2
     pY = height / 2
     nextDelay = random(2000, 6000)
-    irisColor = color(random(40, 255), random(40, 255), random(40, 255));
+    irisColor = color(random(EYE_COLORS));
     strokeCap(ROUND)
 }
 
@@ -29,7 +34,7 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight)
     pX = width / 2
     pY = height / 2
-    
+
 }
 
 function draw() {
@@ -83,18 +88,18 @@ function pupilTarget() {
             const r = pow(random(), 2) * 0.8 // bias toward centre
             idleTarget = {
                 x: cx + cos(angle) * rx * r,
-                y: cy + sin(angle) * ry * r,
+                y: cy + sin(angle) * ry * r * 0.3, // ↓ dampen vertical range
             }
             nextIdleTargetTime = now + random(800, 1800)
         }
     }
 
     // choose target
-    let dx, dy
+    let dx = 0, dy = 0
     if (idleTarget) {
         dx = idleTarget.x - cx
         dy = idleTarget.y - cy
-    } else {
+    } else if (lastMoveTime > 0) {
         // base offset from mouse
         let nx = ((mouseX - cx) / (width / 2)) * sensitivity
         let ny = ((mouseY - cy) / (height / 2)) * sensitivity
