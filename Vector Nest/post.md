@@ -1,3 +1,21 @@
+# Vector Nest
+
+Not much to say here. Just check out the output images.
+
+## Final Images
+
+![image](./resources/f1.jpg)
+![image](./resources/f2.jpg)
+![image](./resources/f3.jpg)
+![image](./resources/f4.jpg)
+![image](./resources/f5.jpg)
+![image](./resources/f6.jpg)
+![image](./resources/f7.jpg)
+![image](./resources/f8.jpg)
+
+## Source Code
+
+```{js}
 let pg
 let cols, rows
 let spacing = 30
@@ -106,4 +124,4 @@ function lerpAngle(a, b, t) {
     const diff = atan2(sin(b - a), cos(b - a))
     return a + diff * t
 }
-
+```

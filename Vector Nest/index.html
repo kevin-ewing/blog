@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FRTZ31H3JH"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-FRTZ31H3JH");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Nest - Kevin Ewing | Generative Art Blog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.0/marked.min.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: black;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #f9f9f9;
+        }
+    </style>
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg" />
+    <link rel="shortcut icon" href="../favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="../favicon/site.webmanifest" />
+</head>
+<body>
+    <a href="#" class="back-button" onclick="goToParentDir(); return false;">&larr; Back</a>
+    <script>
+    function goToParentDir() {
+        let path = window.location.pathname;
+        let parentPath = path.endsWith("/") ? path.slice(0, -1) : path;
+        parentPath = parentPath.substring(0, parentPath.lastIndexOf("/")) || "/";
+        window.location.href = parentPath;
+    }
+    </script>
+    <div class="top-links">
+        <a href="https://kevin-ewing.com" target="_blank">Resume Site</a>
+        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">LinkedIn</a>
+        <a href="https://www.instagram.com/kevin_ewing_art/" target="_blank">Instagram</a>
+        <a href="mailto:kevin.c.ewing@outlook.net">Email</a>
+        <a href="https://www.linkedin.com/in/kevincewing/" target="_blank">GitHub</a>
+    </div>
+    <article id="content" class="markdown-body">Loading...</article>
+    <script>
+        fetch("post.md")
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById("content").innerHTML = marked.parse(text);
+            })
+            .catch(error => {
+                document.getElementById("content").innerHTML = "<p>Error loading the markdown file.</p>";
+                console.error("Error fetching markdown:", error);
+            });
+    </script>
+    <div class="footer">&copy; Kevin Ewing <span id="year"></span></div>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
