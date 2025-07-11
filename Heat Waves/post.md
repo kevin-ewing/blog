@@ -1,3 +1,29 @@
+# Heat Waves
+
+![image](./resources/o10.jpg)
+![image](./resources/o9.jpg)
+![image](./resources/o8.jpg)
+![image](./resources/o7.jpg)
+![image](./resources/o6.jpg)
+![image](./resources/o5.jpg)
+![image](./resources/o4.jpg)
+![image](./resources/o3.jpg)
+![image](./resources/o2.jpg)
+![image](./resources/o1.jpg)
+
+## Final Images
+
+![image](./resources/f1.jpg)
+![image](./resources/f2.jpg)
+![image](./resources/f3.jpg)
+![image](./resources/f4.jpg)
+![image](./resources/f5.jpg)
+![image](./resources/f6.jpg)
+
+## Source Code
+
+```js
+
 const NOISE_DIFF = 20
 
 let colorA, colorB, circleColor;
@@ -10,13 +36,13 @@ function setup() {
     colorMode(HSB, 360, 100, 100);
     noStroke();
 
-    numCells = floor(random(9, 16));
+    numCells = floor(random(11, 18));
     let s = random(40, 60);
     let b = random(80, 90);
     let base = random(360);
     colorA = color(base, s, b);
     colorB = color((base + 60) % 360, s, b);
-    circleColor = color(base, s, b * 0.5);
+    circleColor = color(base, s, b * 0.8);
 
     updateCellSize();
     noLoop();
@@ -43,7 +69,7 @@ function draw() {
             let isA = (x + y) % 2 === 0;
             let baseColor = isA ? colorA : colorB;
             let strokeCol = color(hue(baseColor), saturation(baseColor), min(brightness(baseColor) + 10, 100));
-            let sw = cellSize * 0.03;
+            let sw = cellSize * 0.02;
             let cx = x * cellSize;
             let cy = y * cellSize;
 
@@ -95,3 +121,4 @@ function addNoise() {
     }
     updatePixels()
 }
+```
